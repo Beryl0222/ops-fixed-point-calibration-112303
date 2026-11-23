@@ -13,3 +13,4 @@ class ExchangeRecordTests(unittest.TestCase):
         self.assertTrue(record["tails"]["dry"] != record["tails"]["wet"])
         self.assertTrue(len(set(record["device"]["scales"])) >= 5 and len(record["device"]["zero_points"]) >= 2)
         self.assertTrue(max(record["device"]["bias"]) > 2**(record["device"]["accumulator_bits"]-2))
+        self.assertTrue(all(np.all((np.asarray(rows) >= np.asarray(record["device"]["input_envelopes"][key])[:,0]) & (np.asarray(rows) <= np.asarray(record["device"]["input_envelopes"][key])[:,1])) for key, rows in record["sample_tensor"].items()))
